@@ -3,7 +3,7 @@ package com.sofkau.backend.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ToDo_Table")
+@Table(name = "Todo_table")
 public class ToDo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

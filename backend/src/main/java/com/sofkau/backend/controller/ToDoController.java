@@ -1,7 +1,7 @@
 package com.sofkau.backend.controller;
 
-import com.sofkau.backend.dom.dto.ToDoDTO;
-import com.sofkau.backend.dom.mapper.ToDoMapper;
+import com.sofkau.backend.web.dto.ToDoDTO;
+import com.sofkau.backend.web.mapper.ToDoMapper;
 import com.sofkau.backend.entity.ToDo;
 import com.sofkau.backend.service.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "ToDoList_Table")
+@Table(name = "TodoList_table")
 public class ToDoList {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    @OneToMany(mappedBy = "toDoListId", orphanRemoval = true, cascade = CascadeType.PERSIST)
     private List<ToDo> toDoList = new ArrayList<>();
 
     public Long getId() {

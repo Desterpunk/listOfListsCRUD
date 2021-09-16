@@ -1,4 +1,4 @@
-package com.sofkau.backend.dom.dto;
+package com.sofkau.backend.web.dto;
 
 public class ToDoDTO {
     private Long id;

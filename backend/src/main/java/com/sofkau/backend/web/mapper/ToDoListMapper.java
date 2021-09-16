@@ -1,6 +1,6 @@
-package com.sofkau.backend.dom.mapper;
+package com.sofkau.backend.web.mapper;
 
-import com.sofkau.backend.dom.dto.ToDoListDTO;
+import com.sofkau.backend.web.dto.ToDoListDTO;
 import com.sofkau.backend.entity.ToDoList;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ToDoListMapper {
-    ToDoListMapper INSTANCE = Mappers.getMapper(ToDoListMapper.class);
+    ToDoMapper INSTANCE = Mappers.getMapper(ToDoMapper.class);
     ToDoListDTO toDTO(ToDoList toDoList);
     ToDoList toEntity(ToDoListDTO toDoListDTO);
 
