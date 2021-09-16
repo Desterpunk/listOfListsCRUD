@@ -16,8 +16,7 @@ const FormToDoList = () => {
   const onAdd = (event) => {
     const request = {
       name: state.name,
-      id: null,
-      isCompleted:false
+      id: null
     };
     fetch(HOST_API + "/todoList",{
       method: "POST",
@@ -34,6 +33,27 @@ const FormToDoList = () => {
     });
   }
 
+  const onEdit = (event) => {
+    const request = {
+      name:state.name,
+      id:item.id
+    };
+
+    fetch(HOST_API+"/todoList", {
+      method: "PUT",
+      body: JSON.stringify(request),
+      headers: {
+        'Content-Type':'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then((toDoList) => {
+      dispatch({type:"update-toDoList-item",item:toDoList});
+      setState({name: ""});
+      formRef.current.reset();
+    })
+  }
+
   return <form ref={formRef}>
     <input
       type="text"
@@ -43,7 +63,8 @@ const FormToDoList = () => {
       onChange={(event) => {
         setState({ ...state, name: event.target.value })
       }}  ></input>
-    {<button onClick={onAdd}>New list</button>}
+    {item.id && <button onClick={onEdit}>Update List</button>}  
+    {!item.id &&<button onClick={onAdd}>New list</button>}
   </form>
 }
 
@@ -67,11 +88,16 @@ const ListToDoList = () => {
     })
   };
 
+  const onEdit = (toDoList) => {
+    dispatch({type:"edit-toDoList-item",item:toDoList})
+  };
+
   return <div>
     {currentList.map((toDoList) => {
       return <div key={toDoList.id}>
         <p className="text-white">{toDoList.id} {toDoList.name}</p>
         <button onClick={() => onDelete(toDoList.id)}>Eliminar</button>
+        <button onClick={() => onEdit(toDoList)}>Editar</button>
       </div>
     })}
   </div>
@@ -95,6 +121,25 @@ function reducer(state,action){
       })
       toDoListUpDelete.list = toDoListUp;
       return {...state, toDoList: toDoListUpDelete} 
+      
+
+    case 'edit-toDoList-item':
+      const toDoListUpEdit = state.toDoList;
+      toDoListUpEdit.item = action.item;
+      return{ ...state,toDoList: toDoListUpEdit};
+  
+    case 'update-toDoList-item':
+      const toDoListUpateItem = state.toDoList;
+      const toDoListUpdateEdit = toDoListUpateItem.lista.map((item) => {
+        if(item.id === action.item.id) {
+          return action.item;
+        }
+        return item;
+      })
+      toDoListUpateItem.lista = toDoListUpdateEdit;
+      toDoListUpateItem.item = {}
+      return {...state, toDoList: toDoListUpateItem};
+
     default:
       return state;  
 
