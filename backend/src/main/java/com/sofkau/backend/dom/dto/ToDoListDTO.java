@@ -1,4 +1,4 @@
-package com.sofkau.backend.dom;
+package com.sofkau.backend.dom.dto;
 
 import com.sofkau.backend.entity.ToDo;
 
