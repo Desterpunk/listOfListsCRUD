@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{useReducer,createContext} from 'react';
+
+const initialState = {
+  toDoList: { List: [], item: {}},
+  todo: {List: [], item: {}}
+}
+const Store = createContext(initialState)
+
+function reducer(state,action){
+  switch (action.type) {
+    case 'prueba':
+      return state;
+    default:
+      return state;  
+
+  }
+}
+
+const StoreProvider = ({children}) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  return <Store.Provider value={{state,dispatch}}>
+    {children}
+  </Store.Provider>
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <StoreProvider>
+      <style >{'body {background-color: #8f8f8f}'}</style>
+        <h3 className="text-center text-white">To-DO List</h3>
+
+    </StoreProvider>
   );
 }
 
