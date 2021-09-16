@@ -99,6 +99,7 @@ const ListToDoList = () => {
         <button onClick={() => onDelete(toDoList.id)}>Eliminar</button>
         <button onClick={() => onEdit(toDoList)}>Editar</button>
         <FormToDo idTodoList={toDoList.id}/>
+        <ListToDo toDoList = {toDoList.toDoList}/>
       </div>
     })}
   </div>
@@ -145,6 +146,19 @@ const FormToDo = (props) => {
       }}  ></input> 
     {!item.id &&<button onClick={onAdd}>Nuevo</button>}
   </form>
+}
+
+const ListToDo = (props) => {
+  const {dispatch} = useContext(Store);
+  const currentList = props.toDoList;
+  console.log(currentList)
+  return <div>
+        {currentList.map((toDo) => {
+      return <div>
+        {toDo.id} {toDo.name}
+      </div>
+    })}
+  </div>
 }
 
 function reducer(state,action){
