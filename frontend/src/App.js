@@ -1,4 +1,4 @@
-import React,{useReducer,createContext,useRef,useContext,useState} from 'react';
+import React,{useReducer,createContext,useRef,useContext,useState,useEffect} from 'react';
 
 const HOST_API = "http://localhost:8080/api";
 const initialState = {
@@ -48,6 +48,27 @@ const FormToDoList = () => {
   </form>
 }
 
+const ListToDoList = () => {
+  const {dispatch,state:{toDoList}} = useContext(Store);
+  const currentList = toDoList.list;
+
+  useEffect(() => {
+    fetch(HOST_API + "/todosList")
+    .then(response => response.json())
+    .then((list) => {
+      dispatch({type: "update-toDoList-list",list})
+    })
+  }, [dispatch])
+
+  return <div>
+    {currentList.map((toDoList) => {
+      return <div>
+        <p className="text-white">{toDoList.id} {toDoList.name}</p>
+      </div>
+    })}
+  </div>
+}
+
 
 function reducer(state,action){
   switch (action.type) {
@@ -55,6 +76,10 @@ function reducer(state,action){
       const todoListUp = state.toDoList.list;
       todoListUp.push(action.item);
       return { ...state, todoList: { list: todoListUp, item: {} } }
+    case 'update-toDoList-list':
+      const toDoUpList = state.toDo;
+      toDoUpList.list = action.list;
+      return {...state, toDoList: toDoUpList}  
     default:
       return state;  
 
@@ -75,6 +100,7 @@ function App() {
       <style >{'body {background-color: #8f8f8f}'}</style>
         <h3 className="text-center text-white">To-DO List</h3>
         <FormToDoList/>
+        <ListToDoList/>
 
     </StoreProvider>
   );
