@@ -14,7 +14,6 @@ const FormToDoList = () => {
   const [state, setState] = useState(item);
 
   const onAdd = (event) => {
-    event.preventDefault();
     const request = {
       name: state.name,
       id: null,
@@ -44,7 +43,7 @@ const FormToDoList = () => {
       onChange={(event) => {
         setState({ ...state, name: event.target.value })
       }}  ></input>
-    {!item.id && <button onClick={onAdd}>New list</button>}
+    {<button onClick={onAdd}>New list</button>}
   </form>
 }
 
@@ -60,10 +59,19 @@ const ListToDoList = () => {
     })
   }, [dispatch])
 
+  const onDelete = (id) => {
+    fetch(HOST_API + "/" + id + "/todoList",{
+      method:"DELETE"
+    }).then((list) => {
+      dispatch({type: "delete-toDoList-item",id})
+    })
+  };
+
   return <div>
     {currentList.map((toDoList) => {
-      return <div>
+      return <div key={toDoList.id}>
         <p className="text-white">{toDoList.id} {toDoList.name}</p>
+        <button onClick={() => onDelete(toDoList.id)}>Eliminar</button>
       </div>
     })}
   </div>
@@ -80,6 +88,13 @@ function reducer(state,action){
       const toDoUpList = state.toDo;
       toDoUpList.list = action.list;
       return {...state, toDoList: toDoUpList}  
+    case 'delete-toDoList-item':
+      const toDoListUpDelete = state.toDoList;
+      const toDoListUp = toDoListUpDelete.list.filter((item) => {
+        return item.id !== action.id
+      })
+      toDoListUpDelete.list = toDoListUp;
+      return {...state, toDoList: toDoListUpDelete} 
     default:
       return state;  
 
