@@ -98,11 +98,54 @@ const ListToDoList = () => {
         <p className="text-white">{toDoList.id} {toDoList.name}</p>
         <button onClick={() => onDelete(toDoList.id)}>Eliminar</button>
         <button onClick={() => onEdit(toDoList)}>Editar</button>
+        <FormToDo idTodoList={toDoList.id}/>
       </div>
     })}
   </div>
 }
 
+
+const FormToDo = (props) => {
+  const formRef = useRef(null);
+  const {dispatch,state: {toDo}} = useContext(Store);
+  const item = toDo.item;
+  const toDoListId = props.idTodoList;
+  const [state, setState] = useState(item);
+
+  const onAdd = (event) => {
+    const request = {
+      name: state.name,
+      id: null,
+      completed: false,
+      toDoListId: toDoListId
+    };
+    fetch(HOST_API + "/todo",{
+      method: "POST",
+      body: JSON.stringify(request),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then((toDoList) => {
+      dispatch({ type: "add-toDo-item",item:toDoList});
+      setState({name: ""});
+      formRef.current.reset();
+    });
+  }
+
+  return <form ref={formRef}>
+    <input
+      type="text"
+      name="name"
+      placeholder="Objetivos"
+      defaultValue={item.name}
+      onChange={(event) => {
+        setState({ ...state, name: event.target.value })
+      }}  ></input> 
+    {!item.id &&<button onClick={onAdd}>Nuevo</button>}
+  </form>
+}
 
 function reducer(state,action){
   switch (action.type) {
@@ -121,7 +164,10 @@ function reducer(state,action){
       })
       toDoListUpDelete.list = toDoListUp;
       return {...state, toDoList: toDoListUpDelete} 
-      
+    case 'add-toDo-item':
+      const toDoUpEdit = state.toDo;
+      toDoUpEdit.item = action.item;
+      return{ ...state,toDo: toDoUpEdit};   
 
     case 'edit-toDoList-item':
       const toDoListUpEdit = state.toDoList;
