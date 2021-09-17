@@ -1,4 +1,5 @@
 import React,{useRef,useContext,useState} from 'react';
+import Swal from 'sweetalert2';
 import { HOST_API } from '../App';
 import { StoreListas } from './StoreProvider';
 const FormToDo = (props) => {
@@ -15,20 +16,47 @@ const FormToDo = (props) => {
         completed: false,
         toDoListId: toDoListId
       };
-      fetch(HOST_API + "/todo",{
-        method: "POST",
-        body: JSON.stringify(request),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(response => response.json())
-      .then((toDo) => {
-        dispatch({ type: "add-toDo-item",item:toDo});
-        setState({name: ""});
-        formRef.current.reset();
+  
+      if (request.name !== "" && request.name !== undefined) {
+        if (request.name.length > 2) {
+          fetch(HOST_API + "/todo",{
+            method: "POST",
+            body: JSON.stringify(request),
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+            }
+          })
+          .then(response => response.json())
+          .then((toDo) => {
+            dispatch({ type: "add-toDo-item",item:toDo});
+            setState({name: ""});
+            formRef.current.reset();
+          });
+        } else {
+          event.preventDefault()
+            Swal.fire({
+                title: "Tarea no registrada",
+                text: "Su tarea debe tener mínimo 2 carácteres",
+                icon: "error",
+                confirmButtonText: "¡Entendido!",
+                confirmButtonColor: "#f96332",
+            });
+      
+      } 
+
+    } else {
+      event.preventDefault()
+      Swal.fire({
+          title: "Tarea no actualizada",
+          text: "Debe realizar mínimo un cambio",
+          icon: "error",
+          confirmButtonText: "¡Entendido!",
+          confirmButtonColor: "#f96332",
       });
-    }
+  }
+    
+  }
   
     return <form ref={formRef}  className={"containerCreateTodo"}>
       <h2 className="title titleCreate">Create To-Do</h2>
