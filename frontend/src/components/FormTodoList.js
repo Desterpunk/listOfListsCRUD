@@ -35,7 +35,7 @@ const FormToDoList = () => {
           event.preventDefault()
             Swal.fire({
                 title: "Tarea no registrada",
-                text: "Su tarea debe tener mínimo 5 carácteres",
+                text: "Su tarea debe tener mínimo 2 carácteres",
                 icon: "error",
                 confirmButtonText: "¡Entendido!",
                 confirmButtonColor: "#f96332",
@@ -61,7 +61,7 @@ const FormToDoList = () => {
         id:item.id
       };
       if (request.name !== "" && request.name !== undefined) {
-        if (request.name.length > 4) {
+        if (request.name.length > 2) {
           fetch(HOST_API+"/todoList", {
             method: "PUT",
             body: JSON.stringify(request),
@@ -100,8 +100,8 @@ const FormToDoList = () => {
   }
   
     return <form ref={formRef} className={"containerCreateTodo"}>
-      <h2 className="title titleCreate">Create To-Do List</h2>
-      <div className="containerCreateTodo">
+      <h2 className="title titleCreate mt-5 display-1"><strong>Create To-Do List</strong></h2>
+      <div className="container">
       <input
         className = "form-control"
         type="text"

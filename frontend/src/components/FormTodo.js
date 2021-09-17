@@ -64,25 +64,50 @@ const FormToDo = (props) => {
         id:item.id,
         toDoListId:item.toDoListId
       };
-      fetch(HOST_API+"/todo", {
-        method: "PUT",
-        body: JSON.stringify(request),
-        headers: {
-          'Content-Type':'application/json'
-        }
-      })
-      .then(response => response.json())
-      .then((toDo) => {
-        dispatch({type:"update-toDo-item",item:toDo});
-        setState({name: ""});
-        formRef.current.reset();
-      });
+      if (request.name !== "" && request.name !== undefined) {
+        if (request.name.length > 2) {
+          fetch(HOST_API+"/todo", {
+            method: "PUT",
+            body: JSON.stringify(request),
+            headers: {
+              'Content-Type':'application/json'
+            }
+          })
+          .then(response => response.json())
+          .then((toDo) => {
+            dispatch({type:"update-toDo-item",item:toDo});
+            setState({name: ""});
+            formRef.current.reset();
+          });
+        } else {
+          event.preventDefault()
+            Swal
+            .fire({
+                title: "Tarea no registrada",
+                text: "Su tarea debe tener mínimo 2 carácteres",
+                icon: "error",
+                confirmButtonText: "¡Entendido!",
+                confirmButtonColor: "#f96332",
+            });
+          } 
+      } else {
+        event.preventDefault()
+        Swal.fire({
+            title: "Tarea no registrada",
+            text: "Su tarea debe tener mínimo 2 carácteres",
+            icon: "error",
+            confirmButtonText: "¡Entendido!",
+            confirmButtonColor: "#f96332",
+        });
+
+      }
+
     }
 
 
   
     return <form ref={formRef}  className={"containerCreateTodo"}>
-      <h2 className="title titleCreate">Create To-Do</h2>
+      <h2 className="title">Create To-Do</h2>
       <div className="containerCreateTodo">
       <input
         className = "form-control"
