@@ -149,9 +149,17 @@ const FormToDo = (props) => {
 }
 
 const ListToDo = (props) => {
-  const {state} = useContext(StoreListas);
-  console.log(state)
+  const {dispatch, state:{toDo}} = useContext(StoreListas);
   const currentList = props.toDoList;
+
+  useEffect(() => {
+    fetch(HOST_API + "/todos")
+    .then(response => response.json())
+    .then((list) => {
+      dispatch({type: "update-toDo-list",list})
+    })
+  },[dispatch])
+
   return <div>
         {currentList.map((toDo) => {
       return <div key={toDo.id}>
@@ -195,6 +203,14 @@ function reducer(state,action){
       toDoListUpateItem.lista = toDoListUpdateEdit;
       toDoListUpateItem.item = {}
       return {...state, toDoList: toDoListUpateItem};
+    case 'add-toDo-item':
+      const toDoUp = state.toDo.list;
+      toDoUp.push(action.item);
+      return{ ...state,toDo: {list:toDoUp,item: {}}}
+    case 'update-toDo-list':
+      const toDoUpdate = state.toDo;
+      toDoUpdate.list = action.list;
+      return {...state, toDo: toDoUpdate}   
 
     default:
       return state;  
