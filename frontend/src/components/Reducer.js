@@ -41,8 +41,8 @@ function Reducer(state,action){
         toDoUpdate.list = action.list;
         return {...state, toDo: toDoUpdate}   
       case 'delete-toDo-item':
-        const toDoUpDelete = state.toDo.list;
-        const toDoUpNotDelete = toDoUpDelete.filter((item) => {
+        const toDoUpDelete = state.toDo;
+        const toDoUpNotDelete = toDoUpDelete.list.filter((item) => {
           return item.id !== action.id
         }) 
         toDoUpDelete.list = toDoUpNotDelete;
@@ -58,7 +58,20 @@ function Reducer(state,action){
         toDoUpItem.list = listUpdateEdit;
         toDoUpItem.item = {};
         return { ...state, todo: toDoUpItem } 
+      case "edit-toDo-item":
+        const toDOUpEdit = state.toDo;
+        toDOUpEdit.item = action.item;
+        return{...state,toDo:toDOUpEdit};
+      case "update-toDo-item":
+        const toDoUpdateItem = state.toDo;
+        const toDoUpdateEdit = toDoUpdateItem.list.map((item) => {
+          return action.item;
+        })
+        toDoUpdateItem.lista = toDoUpdateEdit;
+        toDoUpdateItem.item = {}
+        return {...state, toDoList: toDoUpdateItem};
       default:
+ 
         return state;  
   
     }

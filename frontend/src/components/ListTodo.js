@@ -48,6 +48,10 @@ const ListToDo = (props) => {
 
         });
     }
+
+    const onEdit = (toDo) => {
+      dispatch({type:"edit-toDo-item",item:toDo})
+    }
   
     return <div>
       <table>
@@ -65,7 +69,8 @@ const ListToDo = (props) => {
                 <td>{toDo.id}</td>
                 <td> {toDo.name}</td>
                 <td><input type="checkbox" defaultChecked={toDo.completed} onChange={(event) => onChange(event, toDo)}></input></td>
-                <td><button className="button delete" onClick={() => onDelete(toDo.id)}>Eliminar</button></td>
+                <td><button className="button delete" onClick={() => onDelete(toDo.id)}>Eliminar</button><span>  </span>
+                <button className="button delete" onClick={() => onEdit(toDo)}><span>Editar</span><div className="liquid"></div></button></td>
               </tr>
               }
               return null

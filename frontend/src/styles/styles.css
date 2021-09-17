@@ -113,7 +113,7 @@ main .container-img {
 .photo{
   width: 200px;
   height: 200px;
-  border-radius: 8100%;
+  border-radius: 0%;
 }
 
 
