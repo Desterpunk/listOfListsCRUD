@@ -99,7 +99,7 @@ const ListToDoList = () => {
         <button onClick={() => onDelete(toDoList.id)}>Eliminar</button>
         <button onClick={() => onEdit(toDoList)}>Editar</button>
         <FormToDo idTodoList={toDoList.id}/>
-        <ListToDo toDoList = {toDoList.toDoList}/>
+        <ListToDo idTodoList = {toDoList.id}/>
       </div>
     })}
   </div>
@@ -150,8 +150,8 @@ const FormToDo = (props) => {
 
 const ListToDo = (props) => {
   const {dispatch,state:{toDo}} = useContext(StoreListas);
-  console.log(toDo)
-  const currentList = props.toDoList;
+  const todoList = toDo.list
+  const toDoListId = props.idTodoList;
 
   useEffect(() => {
     fetch(HOST_API + "/todos")
@@ -170,11 +170,14 @@ const ListToDo = (props) => {
   };
 
   return <div>
-        {currentList.map((toDo) => {
-      return <div key={toDo.id}>
-        {toDo.id} {toDo.name}
-        <button onClick={() => onDelete(toDo.id)}>Eliminar</button>
-      </div>
+        {todoList.map((toDo) => {
+          if(toDo.toDoListId === toDoListId){
+            return <div key={toDo.id}>
+            {toDo.id} {toDo.name}
+            <button onClick={() => onDelete(toDo.id)}>Eliminar</button>
+          </div>
+          }
+          return null
     })}
   </div>
 }
