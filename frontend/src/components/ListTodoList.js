@@ -47,8 +47,8 @@ const ListToDoList = () => {
               <td> {toDoList.name}</td>
               <td><FormToDo idTodoList={toDoList.id}/></td>
               <td> <ListToDo idTodoList = {toDoList.id}/></td>
-              <td><button className="button edit" onClick={() => onDelete(toDoList.id)}>Eliminar</button></td>
-              <td><button className="button delete" onClick={() => onEdit(toDoList)}>Editar</button></td>
+              <td><button className="button edit" onClick={() => onDelete(toDoList.id)}><span>Eliminar</span><div className="liquid"></div></button></td>
+              <td><button className="button delete" onClick={() => onEdit(toDoList)}><span>Editar</span><div className="liquid"></div></button></td>
               
             </tr>
           })}

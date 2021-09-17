@@ -1,18 +1,17 @@
 import React from 'react';
-import FormToDoList from './components/FormTodoList';
-import ListToDoList from './components/ListTodoList';
-import { StoreProvider } from './components/StoreProvider';
-
+import {BrowserRouter,Route,Switch} from "react-router-dom";
+import CoverPage from './components/CoverPage';
+import PrincipalPage from './components/PrincipalPage';
 export const HOST_API = "http://localhost:8080/api";
 
 function App() {
   return (
-    <StoreProvider className="container text-align-center">
-      <style >{'body {background-color: #8f8f8f}'}</style>
-        <h3 className="text-center text-white mt-5">To-DO List</h3>
-        <FormToDoList/>
-        <ListToDoList/>
-    </StoreProvider>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={CoverPage}/>
+        <Route path = "/todo-list" component={PrincipalPage} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 

@@ -71,7 +71,7 @@ const FormToDo = (props) => {
           setState({ ...state, name: event.target.value })
         }}  ></input> 
       <div className="containerButtons">    
-        {!state.id &&<button className="buttons" onClick={onAdd}>Nuevo</button>}
+        {!state.id &&<button className="buttons" onClick={onAdd}><span>Nuevo</span><div className="liquid"></div></button>}
       </div>
       </div>
     </form>
