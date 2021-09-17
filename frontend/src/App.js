@@ -1,15 +1,15 @@
 import React,{useReducer,createContext,useRef,useContext,useState,useEffect} from 'react';
 
 const HOST_API = "http://localhost:8080/api";
-const initialState = {
+const initialStateListas = {
   toDoList: { list: [], item: {}},
-  toDo: {list: [], item: {}}
+  toDo: {list: [],item: {}}
 }
-const Store = createContext(initialState)
+const StoreListas = createContext(initialStateListas)
 
 const FormToDoList = () => {
   const formRef = useRef(null);
-  const {dispatch,state: {toDoList}} = useContext(Store);
+  const {dispatch,state: {toDoList}} = useContext(StoreListas);
   const item = toDoList.item;
   const [state, setState] = useState(item);
 
@@ -69,7 +69,7 @@ const FormToDoList = () => {
 }
 
 const ListToDoList = () => {
-  const {dispatch,state:{toDoList}} = useContext(Store);
+  const {dispatch,state:{toDoList}} = useContext(StoreListas);
   const currentList = toDoList.list;
 
   useEffect(() => {
@@ -108,7 +108,7 @@ const ListToDoList = () => {
 
 const FormToDo = (props) => {
   const formRef = useRef(null);
-  const {dispatch,state: {toDo}} = useContext(Store);
+  const {dispatch,state: {toDo}} = useContext(StoreListas);
   const item = toDo.item;
   const toDoListId = props.idTodoList;
   const [state, setState] = useState(item);
@@ -128,8 +128,8 @@ const FormToDo = (props) => {
       }
     })
     .then(response => response.json())
-    .then((toDoList) => {
-      dispatch({ type: "add-toDo-item",item:toDoList});
+    .then((toDo) => {
+      dispatch({ type: "add-toDo-item",item:toDo});
       setState({name: ""});
       formRef.current.reset();
     });
@@ -149,12 +149,12 @@ const FormToDo = (props) => {
 }
 
 const ListToDo = (props) => {
-  const {dispatch} = useContext(Store);
+  const {state} = useContext(StoreListas);
+  console.log(state)
   const currentList = props.toDoList;
-  console.log(currentList)
   return <div>
         {currentList.map((toDo) => {
-      return <div>
+      return <div key={toDo.id}>
         {toDo.id} {toDo.name}
       </div>
     })}
@@ -168,7 +168,7 @@ function reducer(state,action){
       todoListUp.push(action.item);
       return { ...state, todoList: { list: todoListUp, item: {} } }
     case 'update-toDoList-list':
-      const toDoUpList = state.toDo;
+      const toDoUpList = state.toDoList;
       toDoUpList.list = action.list;
       return {...state, toDoList: toDoUpList}  
     case 'delete-toDoList-item':
@@ -177,11 +177,7 @@ function reducer(state,action){
         return item.id !== action.id
       })
       toDoListUpDelete.list = toDoListUp;
-      return {...state, toDoList: toDoListUpDelete} 
-    case 'add-toDo-item':
-      const toDoUpEdit = state.toDo;
-      toDoUpEdit.item = action.item;
-      return{ ...state,toDo: toDoUpEdit};   
+      return {...state, toDoList: toDoListUpDelete}    
 
     case 'edit-toDoList-item':
       const toDoListUpEdit = state.toDoList;
@@ -207,11 +203,11 @@ function reducer(state,action){
 }
 
 const StoreProvider = ({children}) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialStateListas);
 
-  return <Store.Provider value={{state,dispatch}}>
+  return <StoreListas.Provider value={{state,dispatch}}>
     {children}
-  </Store.Provider>
+  </StoreListas.Provider>
 }
 
 function App() {
