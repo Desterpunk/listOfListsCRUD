@@ -3,6 +3,8 @@ import { HOST_API } from '../App';
 import FormToDo from './FormTodo';
 import ListToDo from './ListTodo';
 import { StoreListas } from './StoreProvider';
+import { style_div } from './Style';
+
 
 
 const ListToDoList = () => {
@@ -31,11 +33,12 @@ const ListToDoList = () => {
   
     return <div>
       {currentList.map((toDoList) => {
-        return <div key={toDoList.id}>
+        return <div key={toDoList.id} style={style_div}>
           <p className="text-white">{toDoList.id} {toDoList.name}</p>
-          <button onClick={() => onDelete(toDoList.id)}>Eliminar</button>
-          <button onClick={() => onEdit(toDoList)}>Editar</button>
           <FormToDo idTodoList={toDoList.id}/>
+          <button className="btn btn-danger" onClick={() => onDelete(toDoList.id)}>Eliminar</button>
+          <button className="btn btn-warning" onClick={() => onEdit(toDoList)}>Editar</button>
+          
           <ListToDo idTodoList = {toDoList.id}/>
         </div>
       })}

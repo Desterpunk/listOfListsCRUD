@@ -29,7 +29,7 @@ const ListToDo = (props) => {
             if(toDo.toDoListId === toDoListId){
               return <div key={toDo.id}>
               {toDo.id} {toDo.name}
-              <button onClick={() => onDelete(toDo.id)}>Eliminar</button>
+              <button className="btn btn-link" onClick={() => onDelete(toDo.id)}>Eliminar</button>
             </div>
             }
             return null

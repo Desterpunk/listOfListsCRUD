@@ -1,6 +1,7 @@
 import React,{useRef,useContext,useState} from 'react';
 import { HOST_API } from '../App';
 import { StoreListas } from './StoreProvider';
+import { style_div } from './Style';
 
 
 const FormToDoList = () => {
@@ -50,8 +51,9 @@ const FormToDoList = () => {
       })
     }
   
-    return <form ref={formRef}>
+    return <form ref={formRef} style={style_div}>
       <input
+        className = "form-control"
         type="text"
         name="name"
         placeholder="To-Do List"
@@ -60,7 +62,7 @@ const FormToDoList = () => {
           setState({ ...state, name: event.target.value })
         }}  ></input>
       {item.id && <button onClick={onEdit}>Update List</button>}  
-      {!item.id &&<button onClick={onAdd}>New list</button>}
+      {!item.id &&<button className="btn btn-primary" onClick={onAdd}>New list</button>}
     </form>
   }
 

@@ -34,6 +34,7 @@ const FormToDo = (props) => {
   
     return <form ref={formRef}>
       <input
+        className = "form-control"
         type="text"
         name="name"
         placeholder="Objetivos"
@@ -41,7 +42,7 @@ const FormToDo = (props) => {
         onChange={(event) => {
           setState({ ...state, name: event.target.value })
         }}  ></input> 
-      {!state.id &&<button onClick={onAdd}>Nuevo</button>}
+      {!state.id &&<button className="btn btn-secondary" onClick={onAdd}>Nuevo</button>}
     </form>
   }
 
