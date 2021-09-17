@@ -1,8 +1,6 @@
 import React,{useRef,useContext,useState} from 'react';
 import { HOST_API } from '../App';
 import { StoreListas } from './StoreProvider';
-
-
 const FormToDo = (props) => {
     const formRef = useRef(null);
     const {dispatch,state: {toDo}} = useContext(StoreListas);
@@ -32,17 +30,22 @@ const FormToDo = (props) => {
       });
     }
   
-    return <form ref={formRef}>
+    return <form ref={formRef}  className={"containerCreateTodo"}>
+      <h2 className="title titleCreate">Create To-Do</h2>
+      <div className="containerCreateTodo">
       <input
         className = "form-control"
         type="text"
         name="name"
-        placeholder="Objetivos"
+        placeholder="To-do"
         defaultValue={state.name}
         onChange={(event) => {
           setState({ ...state, name: event.target.value })
         }}  ></input> 
-      {!state.id &&<button className="btn btn-secondary" onClick={onAdd}>Nuevo</button>}
+      <div className="containerButtons">    
+        {!state.id &&<button className="buttons" onClick={onAdd}>Nuevo</button>}
+      </div>
+      </div>
     </form>
   }
 

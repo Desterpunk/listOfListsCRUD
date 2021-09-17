@@ -3,7 +3,6 @@ import { HOST_API } from '../App';
 import FormToDo from './FormTodo';
 import ListToDo from './ListTodo';
 import { StoreListas } from './StoreProvider';
-import { style_div } from './Style';
 
 
 
@@ -32,16 +31,29 @@ const ListToDoList = () => {
     };
   
     return <div>
-      {currentList.map((toDoList) => {
-        return <div key={toDoList.id} style={style_div}>
-          <p className="text-white">{toDoList.id} {toDoList.name}</p>
-          <FormToDo idTodoList={toDoList.id}/>
-          <button className="btn btn-danger" onClick={() => onDelete(toDoList.id)}>Eliminar</button>
-          <button className="btn btn-warning" onClick={() => onEdit(toDoList)}>Editar</button>
-          
-          <ListToDo idTodoList = {toDoList.id}/>
-        </div>
-      })}
+      <table>
+        <thead>
+          <tr>
+              <td className="clear">ID</td>
+              <td className="clear">Tarea</td>
+              <td className="clear">Crear to-do?</td>
+              <td className="clear">Acciones</td>
+          </tr>
+        </thead>
+        <tbody>
+          {currentList.map((toDoList) => {
+            return <tr key={toDoList.id}>
+              <td>{toDoList.id}</td>
+              <td> {toDoList.name}</td>
+              <td><FormToDo idTodoList={toDoList.id}/></td>
+              <td> <ListToDo idTodoList = {toDoList.id}/></td>
+              <td><button className="button edit" onClick={() => onDelete(toDoList.id)}>Eliminar</button></td>
+              <td><button className="button delete" onClick={() => onEdit(toDoList)}>Editar</button></td>
+              
+            </tr>
+          })}
+        </tbody>
+      </table>
     </div>
   }
 

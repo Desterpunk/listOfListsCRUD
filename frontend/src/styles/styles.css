@@ -225,9 +225,9 @@ main .container-img {
 
 table {
   background-color: #fff;
-	width: 80vw;
+	width: 60vw;
   box-shadow: 0px 10px 60px 0px #7e7e80;
-  text-align: left;
+  text-align: center;
   line-height: 40px;
   border-collapse: separate;
   border-spacing: 0;
@@ -240,7 +240,7 @@ th {
   font-weight: 500;
 }
 
-thead tr .gomez {
+thead tr .clear {
   border-bottom: 3px solid #ddd;
   color: #333;
 }

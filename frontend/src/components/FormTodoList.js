@@ -1,7 +1,6 @@
 import React,{useRef,useContext,useState} from 'react';
 import { HOST_API } from '../App';
 import { StoreListas } from './StoreProvider';
-import { style_div } from './Style';
 
 
 const FormToDoList = () => {
@@ -51,7 +50,9 @@ const FormToDoList = () => {
       })
     }
   
-    return <form ref={formRef} style={style_div}>
+    return <form ref={formRef} className={"containerCreateTodo"}>
+      <h2 className="title titleCreate">Create To-Do List</h2>
+      <div className="containerCreateTodo">
       <input
         className = "form-control"
         type="text"
@@ -61,8 +62,11 @@ const FormToDoList = () => {
         onChange={(event) => {
           setState({ ...state, name: event.target.value })
         }}  ></input>
-      {item.id && <button onClick={onEdit}>Update List</button>}  
-      {!item.id &&<button className="btn btn-primary" onClick={onAdd}>New list</button>}
+      <div className="containerButtons">   
+        {item.id && <button onClick={onEdit} className = "buttons buttonUpdate"><span>Update</span><div className="liquid"></div></button>}  
+        {!item.id &&<button className="buttons" onClick={onAdd}><span>Crear</span><div className="liquid"></div></button>}
+      </div>
+      </div>
     </form>
   }
 

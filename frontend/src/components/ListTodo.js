@@ -50,16 +50,28 @@ const ListToDo = (props) => {
     }
   
     return <div>
-          {todoList.map((toDo) => {
-            if(toDo.toDoListId === toDoListId){
-              return <tr key={toDo.id } style={toDo.completed ? decorationDone : {}}>
-              {toDo.id} {toDo.name}
-              <input type="checkbox" defaultChecked={toDo.completed} onChange={(event) => onChange(event, toDo)}></input>
-              <button className="btn btn-link" onClick={() => onDelete(toDo.id)}>Eliminar</button>
-            </tr>
-            }
-            return null
-      })}
+      <table>
+        <thead>
+          <tr>
+              <td className="clean">ID</td>
+              <td className="clean">Tarea</td>
+              <td className="clean">¿Completado?</td>
+          </tr>
+        </thead>
+          <tbody>
+            {todoList.map((toDo) => {
+              if(toDo.toDoListId === toDoListId){
+                return <tr key={toDo.id } style={toDo.completed ? decorationDone : {}}>
+                <td>{toDo.id}</td>
+                <td> {toDo.name}</td>
+                <td><input type="checkbox" defaultChecked={toDo.completed} onChange={(event) => onChange(event, toDo)}></input></td>
+                <td><button className="button delete" onClick={() => onDelete(toDo.id)}>Eliminar</button></td>
+              </tr>
+              }
+              return null
+            })}
+        </tbody>
+      </table>
     </div>
   }
 
