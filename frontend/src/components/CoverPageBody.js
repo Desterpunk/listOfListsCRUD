@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';  
-
+import Draw from '../styles/bg.svg';
 const CoverPageBody = () => {
     return (
         <main>
             <div className="container-img">
+            <img src={Draw} alt="img" />
             </div>
             <div className="container-text">
                 <h1 className="title">

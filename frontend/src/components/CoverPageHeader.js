@@ -1,14 +1,14 @@
 import React from 'react';
+import js from '../styles/js.jpg'
 
 const CoverPageHeader = () => {
     return (
         <header>
-            <span className="logo">To-Do List</span>
             <div>
-                
+                <a target="blank" href="https://github.com/Desterpunk"><img src={js} alt="img_js" className="photo"></img></a>
             </div>
             <nav className="menu">
-                <a target="blank" href="">Repositorio</a>
+                <a target="blank" href="https://github.com/Desterpunk/listOfListsCRUD">Repositorio</a>
             </nav>
         </header>
     );

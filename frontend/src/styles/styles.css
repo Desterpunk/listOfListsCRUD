@@ -84,7 +84,7 @@ main .container-img {
   margin-bottom: 40px;
 }
 
-.container-text .brayan{
+.container-text .clean{
   font-weight: bold;
   color: #F39C12;
   font-style: normal;
@@ -111,9 +111,9 @@ main .container-img {
 }
 
 .photo{
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  border-radius: 8100%;
 }
 
 
