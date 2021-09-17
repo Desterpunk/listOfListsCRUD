@@ -47,6 +47,17 @@ function Reducer(state,action){
         }) 
         toDoUpDelete.list = toDoUpNotDelete;
         return {...state, toDo: toDoUpDelete}
+      case 'update-item':
+        const toDoUpItem = state.toDo;
+        const listUpdateEdit = toDoUpItem.list.map((item) => {
+          if (item.id === action.item.id) {
+            return action.item;
+          }
+          return item;
+        });
+        toDoUpItem.list = listUpdateEdit;
+        toDoUpItem.item = {};
+        return { ...state, todo: toDoUpItem } 
       default:
         return state;  
   
