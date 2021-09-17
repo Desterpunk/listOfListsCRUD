@@ -140,16 +140,17 @@ const FormToDo = (props) => {
       type="text"
       name="name"
       placeholder="Objetivos"
-      defaultValue={item.name}
+      defaultValue={state.name}
       onChange={(event) => {
         setState({ ...state, name: event.target.value })
       }}  ></input> 
-    {!item.id &&<button onClick={onAdd}>Nuevo</button>}
+    {!state.id &&<button onClick={onAdd}>Nuevo</button>}
   </form>
 }
 
 const ListToDo = (props) => {
-  const {dispatch, state:{toDo}} = useContext(StoreListas);
+  const {dispatch,state:{toDo}} = useContext(StoreListas);
+  console.log(toDo)
   const currentList = props.toDoList;
 
   useEffect(() => {
@@ -160,10 +161,19 @@ const ListToDo = (props) => {
     })
   },[dispatch])
 
+  const onDelete = (id) => {
+    fetch(HOST_API + "/" + id + "/todo",{
+      method:"DELETE"
+    }).then((list) => {
+      dispatch({type: "delete-toDo-item",id})
+    })
+  };
+
   return <div>
         {currentList.map((toDo) => {
       return <div key={toDo.id}>
         {toDo.id} {toDo.name}
+        <button onClick={() => onDelete(toDo.id)}>Eliminar</button>
       </div>
     })}
   </div>
@@ -181,10 +191,10 @@ function reducer(state,action){
       return {...state, toDoList: toDoUpList}  
     case 'delete-toDoList-item':
       const toDoListUpDelete = state.toDoList;
-      const toDoListUp = toDoListUpDelete.list.filter((item) => {
+      const toDoListUpNotDelete = toDoListUpDelete.list.filter((item) => {
         return item.id !== action.id
       })
-      toDoListUpDelete.list = toDoListUp;
+      toDoListUpDelete.list = toDoListUpNotDelete;
       return {...state, toDoList: toDoListUpDelete}    
 
     case 'edit-toDoList-item':
@@ -211,7 +221,13 @@ function reducer(state,action){
       const toDoUpdate = state.toDo;
       toDoUpdate.list = action.list;
       return {...state, toDo: toDoUpdate}   
-
+    case 'delete-toDo-item':
+      const toDoUpDelete = state.toDo.list;
+      const toDoUpNotDelete = toDoUpDelete.filter((item) => {
+        return item.id !== action.id
+      }) 
+      toDoUpDelete.list = toDoUpNotDelete;
+      return {...state, toDo: toDoUpDelete}
     default:
       return state;  
 
